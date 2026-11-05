@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "التأهيل السمعي",
+  "short_name": "التأهيل السمعي",
+  "description": "دروس التأهيل السمعي للأطفال: الاستماع والإصغاء خطوة بخطوة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#ffffff",
+  "categories": ["education", "health", "kids"],
+  "prefer_related_applications": false,
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
