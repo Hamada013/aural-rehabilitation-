@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check the app stands alone
-        run: node tests/check.cjs
+        run: node tests/check.cjs && node tests/lessons.cjs
       - name: Stage the site
         run: |
           mkdir -p output/pages

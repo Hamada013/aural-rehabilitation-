@@ -4,23 +4,102 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="دروس التأهيل السمعي للأطفال: الاستماع والإصغاء خطوة بخطوة.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#eaf6f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="التأهيل السمعي">
 <title>التأهيل السمعي</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-180.png">
+<link rel="preload" href="assets/fonts/baloo-bhaijaan-2-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-<header class="topbar"><a class="brand" href="./"><img src="icons/logo.svg" width="44" height="44" alt=""><span>التأهيل السمعي<small>دروس الاستماع</small></span></a></header>
-<main>
- <section class="home-head" aria-labelledby="title"><img src="icons/logo.svg" width="168" height="168" alt=""><h1 id="title">التأهيل السمعي</h1><p>دروس الاستماع للأطفال</p></section>
- <nav class="lessons" id="lessons" aria-label="الدروس"></nav>
+<header class="bar">
+ <button class="icon-button" type="button" id="open-menu" aria-label="كل الدروس" title="كل الدروس" data-icon="menu"></button>
+ <button class="kid-chip" type="button" id="open-kids" aria-label="مين عم يلعب؟"></button>
+ <button class="icon-button" type="button" id="open-info" aria-label="معلومات" title="معلومات" data-icon="info"></button>
+</header>
+
+<main class="map">
+ <section class="welcome" id="welcome" hidden>
+  <img src="icons/logo.svg" width="120" height="120" alt="">
+  <h1>أهلاً وسهلاً!</h1>
+  <p>دروس الاستماع للأطفال. منبلّش بإنشاء حساب للطفل.</p>
+  <button class="big-button" type="button" id="welcome-add" data-icon="plus">طفل جديد</button>
+ </section>
+ <section class="road-area" id="road-area" hidden>
+  <h1 class="road-title" id="road-title"></h1>
+  <div class="road" id="road"><svg class="road-path" id="road-path" aria-hidden="true"></svg></div>
+ </section>
 </main>
-<footer><span>SPEECH AND LANGUAGE PATHOLOGY</span><span>Ahmad Ghanem</span><span>Latakia - Syria</span><a href="mailto:slp.ahmadghanem@gmail.com" dir="ltr">slp.ahmadghanem@gmail.com</a></footer>
+
+<!-- side list: everything at a glance -->
+<dialog class="drawer" id="menu" aria-labelledby="menu-title">
+ <div class="sheet-head"><h2 id="menu-title">كل الدروس</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div id="menu-kid"></div>
+ <ol class="all-lessons" id="all-lessons"></ol>
+ <label class="switch-row"><span><b>🩺 وضع المعالج</b><small>بالرمز: يفتح كل الدروس، ويقيّم الأهداف بعد كل محطة</small></span><input type="checkbox" role="switch" id="therapist"></label>
+ <div class="menu-links">
+  <button type="button" id="menu-report" data-icon="report">تقرير التقدّم</button>
+  <button type="button" id="menu-kids" data-icon="kids">الأطفال</button>
+  <button type="button" id="menu-info" data-icon="info">معلومات وتواصل</button>
+ </div>
+</dialog>
+
+<!-- one lesson: levels, goals and play -->
+<dialog class="sheet lesson-sheet" id="lesson" aria-labelledby="lesson-title">
+ <div class="sheet-head"><h2 id="lesson-title"></h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div id="lesson-body"></div>
+</dialog>
+
+<!-- kids -->
+<dialog class="sheet" id="kids" aria-labelledby="kids-title">
+ <div class="sheet-head"><h2 id="kids-title">مين عم يلعب؟</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div class="kid-grid" id="kid-grid"></div>
+ <form class="kid-form" id="kid-form" hidden>
+  <label>الاسم<input name="name" required maxlength="30" autocomplete="off"></label>
+  <fieldset><legend>الصورة</legend><div class="avatars" id="avatars"></div></fieldset>
+  <div class="form-actions">
+   <button class="big-button" type="submit" data-icon="check">حفظ</button>
+   <button class="text-button" type="button" id="kid-cancel">إلغاء</button>
+   <button class="text-button danger" type="button" id="kid-delete">حذف الطفل</button>
+  </div>
+ </form>
+</dialog>
+
+<!-- therapist code: a light lock so kids don't switch therapist mode on by accident -->
+<dialog class="sheet pin" id="pin" aria-labelledby="pin-title">
+ <div class="sheet-head"><h2 id="pin-title">🩺 وضع المعالج</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <form id="pin-form" class="pin-form">
+  <label for="pin-code">اكتب رمز المعالج</label>
+  <input id="pin-code" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="8" required>
+  <p class="pin-error" id="pin-error" role="alert" hidden>الرمز غلط، جرّب كمان مرة.</p>
+  <button class="big-button" type="submit" data-icon="check">تشغيل</button>
+ </form>
+</dialog>
+
+<!-- report -->
+<dialog class="sheet report-sheet" id="report" aria-labelledby="report-title">
+ <div class="sheet-head no-print"><h2 id="report-title">تقرير التقدّم</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div class="report-actions no-print">
+  <button class="big-button" type="button" id="report-pdf" data-icon="pdf">PDF / طباعة</button>
+  <button class="big-button soft" type="button" id="report-share" data-icon="share">مشاركة</button>
+ </div>
+ <div id="report-body"></div>
+</dialog>
+
+<!-- info and contact: shown on the dashboard only -->
+<dialog class="sheet" id="info" aria-labelledby="info-title">
+ <div class="sheet-head"><h2 id="info-title">عن التطبيق</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div id="info-body"></div>
+</dialog>
+
+<div id="print-area" aria-hidden="true"></div>
+<p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
 <script src="assets/lessons.js"></script>
+<script src="assets/store.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

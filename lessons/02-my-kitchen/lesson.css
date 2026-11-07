@@ -1,0 +1,95 @@
+/* Lesson 2 · مطبخي. Builds on lesson 1's styles (../01-my-house/lesson.css): only the kitchen stations are here. */
+.hero{aspect-ratio:300/250}
+.hero .steam{animation:steam 2.4s ease-in-out infinite}
+
+/* station 1 · board of kitchen things */
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,1.4cqmin,12px);width:min(100cqw,calc((100cqh - (var(--rows) - 1)*10px)/var(--rows)*4 + 30px));padding:clamp(8px,1.6cqmin,14px);background:#fff8ec;border:2px solid #f0dfc4;border-radius:26px;box-shadow:0 10px 30px #22445a12}
+.cell{position:relative;display:grid;place-items:center;aspect-ratio:1;padding:8%;border:2px solid #f0e6d6;border-radius:18px;background:#fff;transition:transform .15s,border-color .15s}
+.cell{align-self:start;height:auto}.cell>svg{display:block;width:100%;height:auto;aspect-ratio:1}
+.stage.choose .cell:not(:disabled):active{transform:scale(.94)}
+.cell.is-correct,.cell.done{border-color:var(--ok);box-shadow:0 0 0 4px #c7edd7}
+.cell.is-wrong{border-color:var(--bad);animation:shake .4s ease}
+.cell .cover{position:absolute;inset:6%;display:grid;place-items:center;padding:6%;background:#fff;border:2px solid var(--ok);border-radius:14px;box-shadow:0 6px 14px #22445a26;transform:rotate(-4deg);animation:land .3s ease-out}
+.cell .cover>svg{width:100%;height:100%}
+.cell .marker{position:absolute;inset:auto auto -6% -6%;width:46%;animation:drop .45s cubic-bezier(.3,1.5,.6,1) both}
+.deck{display:flex;gap:10px}
+.card-back{display:grid;place-items:center;width:calc(var(--card)*.8);height:var(--card);border-radius:18px;border:3px solid #fff;background:repeating-linear-gradient(45deg,#4f9bd9 0 10px,#5fa8e2 10px 20px);box-shadow:0 8px 18px #22445a26;animation:float 2.4s ease-in-out infinite}
+.card-back b{display:grid;place-items:center;width:46%;aspect-ratio:1;border-radius:50%;background:#fff;color:#4f9bd9;font-size:1.6rem}
+.card-back.gone{visibility:hidden}
+.fly-card{position:fixed;z-index:6;display:grid;place-items:center;padding:8px;background:#fff;border:2px solid var(--ok);border-radius:16px;box-shadow:0 14px 30px #22445a40;transition:transform .5s cubic-bezier(.3,.8,.3,1);pointer-events:none}
+.fly-card>svg{width:100%;height:100%}
+.hand-button{width:calc(var(--card)*.6);transition:opacity .3s,transform .3s}.hand-button.used{opacity:.25;transform:scale(.8)}
+.choice.k-button{border-radius:50%;padding:10px}
+
+/* station 2 · the cookie book */
+.page-num{position:absolute;bottom:10px;inset-inline-end:16px;display:grid;place-items:center;min-width:34px;height:34px;padding:0 8px;border-radius:999px;background:#fff6dc;color:#8a5a00;font-weight:800}
+.cover-page{grid-template-rows:auto minmax(0,1fr);background:radial-gradient(90% 70% at 50% 100%,#fff3df 0,transparent 70%),linear-gradient(to left,#e3ebf1 0,#fff 22px) #fff}
+@container stage (min-aspect-ratio:5/4){.cover-page{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}}
+.book-title{margin:0;text-align:center;font-size:clamp(1.4rem,min(6cqw,9cqh),2.6rem);font-weight:800;color:#a0612b}
+.cover-kids{display:flex;justify-content:center;align-items:center;gap:6%;min-height:0;height:100%}
+.cover-kid{height:100%;max-height:100%;aspect-ratio:80/92;padding:4px;border:3px solid transparent;border-radius:24px;background:none;transition:transform .15s}
+.cover-kid>svg{width:100%;height:100%}
+.stage.choose .cover-kid:not(:disabled){border-color:#f2dcbc;animation:wiggle 1.6s ease-in-out infinite}
+.cover-kid.is-correct{border-color:var(--ok);background:#f0fbf4}.cover-kid.is-wrong{border-color:var(--bad);animation:shake .4s ease}
+.choice.k-num .num{font-size:calc(var(--card)*.42);color:#8a5a00}
+.choice.k-pic{width:calc(var(--card)*1.45);padding:6px}
+.run-scene{position:relative;width:100cqw;height:100cqh;border-radius:28px;background:linear-gradient(#fff8ec,#fde9d2);overflow:hidden}
+.runner{position:absolute;bottom:6%;width:clamp(70px,22cqmin,140px);aspect-ratio:80/92;padding:0;border:0;background:none;animation:run var(--t,5s) linear infinite;animation-delay:var(--d,0s)}
+.runner>svg{width:100%;height:100%;animation:hopstep .4s ease-in-out infinite alternate}
+.runner.r0{--t:5s;--d:-1s;bottom:8%}.runner.r1{--t:6s;--d:-3s;bottom:40%}.runner.r2{--t:4.6s;--d:-2s;bottom:62%}.runner.r3{--t:5.6s;--d:-4.4s;bottom:24%}.runner.r4{--t:6.4s;--d:-.4s;bottom:52%}
+.runner.caught{animation-play-state:paused;opacity:0;transition:opacity .4s .2s;transform:scale(1.4)}
+
+/* station 3 · chef's hat */
+.hat-stage{position:relative;display:grid;place-items:center;width:min(100cqw,calc(100cqh*1.6));height:100cqh}
+.hat-stage>svg{width:100%;height:100%}
+.hat-stage[class*=act-]>svg{animation:pop .5s cubic-bezier(.3,1.5,.6,1)}
+.hat-stage.act-turn>svg{animation:flipy .6s ease}
+.hat-stage.spot::after{content:'';position:absolute;inset:20% 10%;border-radius:20px;box-shadow:0 0 0 6px #f2c14e88;animation:pulse-ring 1s ease 2}
+.chef{position:relative;display:grid;place-items:center;width:min(70cqmin,320px);aspect-ratio:1}
+.chef-face{display:grid;place-items:center;width:78%;aspect-ratio:1;margin-top:22%;border-radius:50%;background:#fff8e6;border:6px solid #f6dc95;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:min(34cqmin,150px);line-height:1}
+.chef-hat{position:absolute;top:-6%;left:50%;width:62%;transform:translateX(-50%);animation:hat-on .7s cubic-bezier(.3,1.4,.6,1)}
+.chef-hat>svg{width:100%;height:auto}
+.hat-stage.s8{grid-template-columns:auto auto;gap:4%}.hat-stage.s8>svg{position:absolute;inset:auto 0 0 auto;width:40%;height:auto;animation:hat-off .7s ease}
+.choice.k-tool{padding:14px}
+.choice.k-place{width:calc(var(--card)*1.3);padding:8px}
+
+/* station 4 · chef's jobs */
+.mats{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(8px,2cqw,16px);width:min(100cqw,calc(100cqh*var(--n)*.62));align-items:center}
+@container stage (max-aspect-ratio:1/1){.mats{grid-template-columns:1fr;width:min(100cqw,calc(100cqh/var(--n)*1.5 - 10px))}}
+.mat{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;padding:8px;border:2px solid #f0dfc4;border-radius:22px;background:#fff8ec;transition:opacity .35s,transform .35s}
+@container stage (min-aspect-ratio:1/1){.mat{grid-template-columns:1fr;justify-items:center}}
+.mat.away{opacity:.25;transform:scale(.94)}
+.mat-head{width:clamp(48px,14cqmin,96px);aspect-ratio:1;padding:6px;border:2px solid #f0e6d6;border-radius:18px;background:#fff}
+.mat-head>svg{width:100%;height:100%}
+.stage.choose .mat-head:not(:disabled){border-color:#a9cfe2;box-shadow:0 0 0 3px #e7f1f8}
+.foods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%}
+.food{position:relative;aspect-ratio:1;padding:10%;border:2px solid #f0e6d6;border-radius:14px;background:#fff}
+.food{align-self:start;height:auto;min-height:0}.food>svg{display:block;width:100%;height:auto;aspect-ratio:1}
+.stage.choose .food:not(:disabled){border-color:#cfe3f0}
+.food.is-wrong,.mat-head.is-wrong{border-color:var(--bad);animation:shake .4s ease}
+.food.hatted{border-color:var(--ok);background:#f0fbf4}
+.hat-on{position:absolute;inset:-22% 12% auto 12%;animation:hat-drop .6s cubic-bezier(.3,1.4,.6,1)}.hat-on>svg{width:100%;height:auto;filter:drop-shadow(0 3px 3px #22445a33)}
+.dicebox{position:relative;display:flex;justify-content:center;width:calc(var(--card)*1.7)}
+.dicebox>svg{width:100%;height:auto}
+.die{position:absolute;top:-10%;width:28%;aspect-ratio:1;border-radius:8px;background:#fff;border:2.4px solid var(--ink);box-shadow:inset -4px -4px 0 #dfe7ee}
+.die.d0{left:16%}.die.d1{left:40%}.die.d2{left:64%}
+.dicebox.rolling .die{animation:roll .9s cubic-bezier(.3,.7,.4,1) both}.dicebox.rolling .d1{animation-delay:.12s}.dicebox.rolling .d2{animation-delay:.24s}
+.dicebox:not(.rolling) .die{top:6%;opacity:.0}
+.dice-faces{display:flex;gap:10px}
+.face{display:grid;place-items:center;width:calc(var(--card)*.75);aspect-ratio:1;padding:8px;border-radius:16px;background:#fff;border:2.4px solid var(--ink);box-shadow:inset -5px -5px 0 #dfe7ee;animation:pop .45s cubic-bezier(.3,1.5,.6,1) both}
+.face:nth-child(2){animation-delay:.12s}.face:nth-child(3){animation-delay:.24s}.face>svg{width:100%;height:100%}
+
+@keyframes steam{0%,100%{opacity:.2;transform:translateY(4px)}50%{opacity:1;transform:translateY(-4px)}}
+@keyframes land{from{transform:rotate(-14deg) scale(1.2);opacity:.6}}
+@keyframes float{50%{transform:translateY(-6px) rotate(-2deg)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+@keyframes run{from{left:-30%}to{left:110%}}
+@keyframes hopstep{to{transform:translateY(-10%) rotate(6deg)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes flipy{50%{transform:rotateY(90deg)}}
+@keyframes pulse-ring{50%{box-shadow:0 0 0 14px #f2c14e00}}
+@keyframes hat-on{from{transform:translate(-50%,-80%) rotate(-12deg);opacity:0}}
+@keyframes hat-drop{from{transform:translateY(-80%) rotate(-12deg);opacity:0}}
+@keyframes hat-off{from{transform:translate(-80%,-120%) rotate(-10deg)}}
+@keyframes roll{0%{transform:translateY(-140%) rotate(0)}60%{transform:translateY(40%) rotate(320deg)}100%{transform:translateY(60%) rotate(360deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.runner{animation:none!important;left:var(--x,20%)}.runner.r1{--x:40%}.runner.r2{--x:60%}.runner.r3{--x:10%}.runner.r4{--x:75%}}

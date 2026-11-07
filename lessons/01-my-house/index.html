@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="الدرس الأول: بيتي. لعبة استماع بأربع محطات وثلاث مستويات.">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="التأهيل السمعي">
+<title>بيتي · التأهيل السمعي</title>
+<link rel="manifest" href="../../manifest.webmanifest">
+<link rel="icon" href="../../icons/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icons/apple-180.png">
+<link rel="preload" href="../../assets/fonts/baloo-bhaijaan-2-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/fonts.css">
+<link rel="stylesheet" href="lesson.css">
+</head>
+<body>
+<section class="screen map" id="map" aria-labelledby="lesson-title">
+ <header class="topbar">
+  <div class="brand"><span class="brand-icon" data-icon="build"></span><span>بيتي<small>الدرس ١</small></span></div>
+  <div class="controls">
+   <span class="kid-badge" id="kid" role="img"></span>
+   <a class="icon-button" href="../../index.html" aria-label="خريطة الدروس" title="خريطة الدروس" data-icon="home"></a>
+   <button class="icon-button" type="button" id="open-goals" aria-label="أهداف الدرس" title="أهداف الدرس" data-icon="info"></button>
+  </div>
+ </header>
+ <main class="map-main">
+  <button class="hero" type="button" id="hero" aria-label="اسمع"></button>
+  <h1 id="lesson-title">بيتي</h1>
+  <div class="levels" role="radiogroup" aria-label="المستوى" id="levels">
+   <button type="button" role="radio" data-level="1" aria-checked="true"><span class="dots" aria-hidden="true"><i></i></span>المستوى ١</button>
+   <button type="button" role="radio" data-level="2" aria-checked="false"><span class="dots" aria-hidden="true"><i></i><i></i></span>المستوى ٢</button>
+   <button type="button" role="radio" data-level="3" aria-checked="false"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>المستوى ٣</button>
+  </div>
+  <nav class="stations" id="stations" aria-label="المحطات"></nav>
+ </main>
+</section>
+
+<section class="screen play" id="play" hidden aria-label="اللعب">
+ <div class="hud">
+  <button class="icon-button" type="button" id="back" aria-label="رجوع للمحطات" title="رجوع للمحطات" data-icon="map"></button>
+  <div class="progress" id="progress" role="img" aria-label="التقدّم"></div>
+  <button class="ear" type="button" id="ear" aria-label="اسمع مرة تانية" title="اسمع مرة تانية" data-icon="ear"></button>
+ </div>
+ <div class="stage" id="stage"></div>
+ <div class="tray" id="tray"></div>
+</section>
+
+<dialog class="sheet done" id="done" aria-labelledby="done-title">
+ <h2 id="done-title" class="sr-only">انتهت المحطة</h2>
+ <div class="big-stars" id="done-stars"></div>
+ <p id="done-text"></p>
+ <section class="rate" id="rate" hidden><h3>🩺 تقييم المعالج <small>٨٠٪ = تحقق الهدف</small></h3><ul></ul></section>
+ <div class="done-actions">
+  <button class="icon-button round" type="button" id="done-again" aria-label="العب مرة تانية" title="العب مرة تانية" data-icon="again"></button>
+  <button class="icon-button round" type="button" id="done-map" aria-label="المحطات" title="المحطات" data-icon="map"></button>
+  <button class="icon-button round primary" type="button" id="done-next" aria-label="المحطة التالية" title="المحطة التالية" data-icon="next"></button>
+ </div>
+</dialog>
+
+<dialog class="sheet goals" id="goals" aria-labelledby="goals-title">
+ <div class="sheet-head"><h2 id="goals-title">أهداف الدرس</h2><button class="icon-button" type="button" data-close aria-label="إغلاق" data-icon="close"></button></div>
+ <div id="goals-body"></div>
+</dialog>
+
+<p class="caption" id="caption" role="status" aria-live="polite" hidden></p>
+
+<script src="../../assets/lessons.js"></script>
+<script src="../../assets/store.js"></script>
+<script src="../../assets/kit.js"></script>
+<script src="data.js"></script>
+<script src="art.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
